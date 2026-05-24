@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# Logs and certs (generated at runtime)
+logs/*.csv
+logs/*.pdf
+certs/*.pdf
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
