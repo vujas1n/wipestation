@@ -4,6 +4,7 @@ import csv
 import os
 from datetime import datetime
 from wiper.detect import get_os_drive
+from certs.generator import generate_certificate
 
 STATUS_FILE = "logs/status.json"
 LOG_FILE = "logs/wipe_log.csv"
@@ -41,7 +42,6 @@ def log_to_csv(drive, result, start_time, end_time):
         ])
 
 def wipe_drive(drive):
-    # second line of defense — re-check os drive right before anything destructive
     os_drive = get_os_drive()
     if drive["name"] == os_drive:
         raise Exception(f"Refusing to wipe OS drive: {drive['name']}")
@@ -73,6 +73,10 @@ def wipe_drive(drive):
 
     end_time = datetime.now().isoformat()
     log_to_csv(drive, result, start_time, end_time)
+
+    # generate the pdf certificate for this drive regardless of pass/fail
+    cert_path = generate_certificate(drive, result, start_time, end_time)
+    print(f"certificate saved to {cert_path}")
 
     return result
 
